@@ -8,3 +8,5 @@ public interface ICrudService<T>
     T GetByName(string entityName);
     void Delete(int entityId);
 }
+
+

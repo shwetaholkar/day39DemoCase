@@ -19,8 +19,8 @@ public class CrudBrandService : ICrudService<Brand>
         using var context = new SampleStoreDbContext();
 
         //return context.Brands.ToList();
-        var brand= from b in context.Brands.ToList()
-                   select b;
+        var brand = from b in context.Brands.ToList()
+                    select b;
         return brand;
 
     }
@@ -43,7 +43,7 @@ public class CrudBrandService : ICrudService<Brand>
                     where b.BrandName == brandName
                     select b;
         //return brand.FirstOrDefault();
-        
+
         return brand.First();
     }
 
@@ -62,8 +62,14 @@ public class CrudBrandService : ICrudService<Brand>
             Console.WriteLine($"BrandId {brandId} not found");
             return;
         }
-        
+
         context.Brands.Remove(brand.First());
         context.SaveChanges();
     }
 }
+
+
+
+
+
+

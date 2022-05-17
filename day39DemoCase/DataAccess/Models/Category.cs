@@ -13,10 +13,10 @@ public class Category
     [Column("category_name")]
     public string CategoryName { get; set; }
 
-    public static string Header => "CategoryId, CategoryName";
+    public static string Header => "| CategoryId |       CategoryName      |";
 
     public override string ToString()
     {
-        return $"{CategoryId},{CategoryName}";
+        return $"| {CategoryId,-3} | {CategoryName,-30} |";
     }
 }

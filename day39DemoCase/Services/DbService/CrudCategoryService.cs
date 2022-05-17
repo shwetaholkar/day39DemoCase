@@ -50,10 +50,10 @@ namespace Day39CaseStudy.Services.DbService
 
             //var category = context.Categories.Find(categoryId);
 
-            var category = from c in context.Categories 
+            var category = from c in context.Categories
                            where c.CategoryId == categoryId
                            select c;
-                        
+
             if (category == null)
             {
                 Console.WriteLine($"CategoryId {categoryId} not found");
@@ -68,4 +68,3 @@ namespace Day39CaseStudy.Services.DbService
 
 
 
-  

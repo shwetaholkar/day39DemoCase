@@ -1,7 +1,6 @@
 ﻿using Day39CaseStudy.DataAccess;
 using Day39CaseStudy.DataAccess.Models;
 using Day39CaseStudy.Services.DbService.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace Day39CaseStudy.Services.DbService;
 
@@ -26,13 +25,59 @@ public class CrudProductService : ICrudService<Product>
         //        .ThenBy(p=> p.ProductId)
         //    .ToList();
 
+        var product = (from p in context.Products
+                       join b in context.Brands
+                       on p.BrandId equals b.BrandId
+                       join c in context.Categories
+                       on p.CategoryId equals c.CategoryId
+                       orderby p.BrandId
+                       select new Product
+                       {
+                           ProductId = p.ProductId,
+                           ProductName = p.ProductName,
+                           BrandId = p.BrandId,
+                           Brand = b,
+                           CategoryId = p.CategoryId,
+                           Category = c,
+                           ModelYear = p.ModelYear,
+                           ListPrice = p.ListPrice
 
-        var product = from p in context.Products.ToList()
-                    select p;
+                       }).ToList();
+
         return product;
-
-
     }
+
+    //public IEnumerable<Product> GetAllBrandWise()
+    //{
+    //    // select brand id , brand name,ProductId, ProductName, CategoryId, CategoryName, ModelYear, ListPrice
+    //    // from Brand b
+    //    // inner join  product p
+    //    // on b.brandId = p.brandId 
+    //    //inner join Category c
+    //    //on c.categoryId = p.categoryID
+
+    //    using var context = new SampleStoreDbContext();
+
+    //    var product = (from p in context.Products
+    //                   join b in context.Brands
+    //                   on p.BrandId equals b.BrandId
+    //                   join c in context.Categories
+    //                   on p.CategoryId equals c.CategoryId
+    //                   orderby p.BrandId
+    //                   select new Product
+    //                   {
+    //                       BrandId = p.BrandId,
+    //                       Brand = b,
+    //                       ProductId = p.ProductId,
+    //                       ProductName = p.ProductName,
+    //                       CategoryId = p.CategoryId,
+    //                       Category = c,
+    //                       ModelYear = p.ModelYear,
+    //                       ListPrice = p.ListPrice
+
+    //                   }).ToList();
+    //    return product;
+    //}
 
     public void Update(Product product)
     {

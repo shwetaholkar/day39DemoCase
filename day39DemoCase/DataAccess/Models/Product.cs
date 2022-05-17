@@ -17,7 +17,7 @@ public class Product
     public int BrandId { get; set; }
 
     [ForeignKey("BrandId")]
-    public Brand Brand { get; set; } 
+    public Brand Brand { get; set; }
 
     [Column("category_id")]
     public int CategoryId { get; set; }
@@ -31,10 +31,21 @@ public class Product
     [Column("list_price")]
     public decimal ListPrice { get; set; }
 
-    public static string Header => "ProductId, ProductName, BrandId, BrandName, CategoryId, CategoryName, ModelYear, ListPrice";
+    //public static string Header => "| ProductId |                 ProductName                | BrandId |     BrandName     | CategoryId |         CategoryName        | ModelYear | ListPrice |";
+    public static string Header => "| ProductId |            ProductName               | CategoryId |          CategoryName          | ModelYear | ListPrice |";
+
+    //public override string ToString()
+    //{
+    //    return $"| {ProductId,-3} | {ProductName,-50} | {BrandId,-3} | {Brand?.BrandName,-20} | {CategoryId,-3} | {Category?.CategoryName,-30} | {ModelYear,-5} | {ListPrice,-10} |";
+    //}
 
     public override string ToString()
     {
-        return $"{ProductId}, {ProductName}, {BrandId}, {Brand?.BrandName}, {CategoryId}, {Category?.CategoryName}, {ModelYear}, {ListPrice}";
+        return $"| {ProductId,-3} | {ProductName,-50} | {CategoryId,-3} | {Category?.CategoryName,-30} | {ModelYear,-5} | {ListPrice,-10} |";
+    }
+    public string BrandString()
+    {
+        return $"| {BrandId,-5} | {Brand?.BrandName,-20} |";
     }
 }
+//ProductId, ProductName, CategoryId, CategoryName, ModelYear, ListPrice

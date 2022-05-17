@@ -92,7 +92,7 @@ public class UserInterfaceCrudProductService
         Console.Write("Enter List Price to change: ");
         var listPriceText = Console.ReadLine();
         product.ListPrice = int.Parse(listPriceText);
-        
+
         _productService.Update(product);
     }
 
@@ -112,15 +112,62 @@ public class UserInterfaceCrudProductService
     {
         var products = _productService.GetAll();
 
-        Console.WriteLine("Product List");
-        Console.WriteLine("----------");
+        //Console.WriteLine("Product List");
+        //Console.WriteLine("--------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
-        Console.WriteLine(Product.Header);
-        Console.WriteLine("------------------");
-        foreach (var product in products)
+        //Console.WriteLine(Product.Header);
+        //Console.WriteLine("--------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        //foreach (var product in products)
+        //{
+        //    Console.WriteLine(product);
+        //}
+        //Console.WriteLine("------------------");
+
+        Console.WriteLine("Brand Wise Product Display");
+        Console.WriteLine("------------------------------");
+        Console.WriteLine(Brand.Header);
+        Console.WriteLine("------------------------------");
+        foreach (var brand in products)
         {
-            Console.WriteLine(product);
+            Console.WriteLine(brand.BrandString());
+            Console.WriteLine(Product.Header);
+            Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+            //var brandId;
+            foreach (var product in products)
+            {
+
+                if (brand.ProductId == product.ProductId)
+                {
+                    Console.WriteLine(product);
+                }
+                else
+                {
+                    break;
+                }
+                continue;
+            }
+            
+            //Console.WriteLine(brand.BrandString());
         }
-        Console.WriteLine("------------------");
+        Console.WriteLine("------------------------------------------------------------------------------------------------------------");
+
+        //Console.WriteLine(Product.Header);
+        //Console.WriteLine("-------------------------------------------------------------------------------------------------------------");
+        //foreach (var product in products)
+        //{
+        //    Console.WriteLine(product);
+        //}
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+

@@ -85,15 +85,15 @@ namespace Day39CaseStudy.Services.UserInterface
             var categories = _categoryService.GetAll();
 
             Console.WriteLine("Category List");
-            Console.WriteLine("----------");
+            Console.WriteLine("---------------------------------------");
 
             Console.WriteLine(Category.Header);
-            Console.WriteLine("------------------");
+            Console.WriteLine("----------------------------------------");
             foreach (var category in categories)
             {
                 Console.WriteLine(category);
             }
-            Console.WriteLine("------------------");
+            Console.WriteLine("----------------------------------------");
         }
     }
 }
