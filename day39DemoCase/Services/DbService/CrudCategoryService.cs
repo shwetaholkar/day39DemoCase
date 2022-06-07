@@ -1,38 +1,39 @@
 ﻿using Day39CaseStudy.DataAccess;
 using Day39CaseStudy.DataAccess.Models;
 using Day39CaseStudy.Services.DbService.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Day39CaseStudy.Services.DbService
 {
     public class CrudCategoryService : ICrudService<Category>
     {
-        public void Add(Category category)
+        public async Task AddAsync(Category category)
         {
             using var context = new SampleStoreDbContext();
 
-            context.Categories.Add(category);
-            context.SaveChanges();
+            await context.Categories.AddAsync(category);
+            await context.SaveChangesAsync();
         }
 
-        public IEnumerable<Category> GetAll()
+        public async Task< IEnumerable<Category>> GetAllAsync()
         {
             using var context = new SampleStoreDbContext();
 
             //return context.Categories.ToList();
-            var category = from c in context.Categories.ToList()
+            var category = from c in context.Categories
                            select c;
-            return category;
+            return await category.ToListAsync();
         }
 
-        public void Update(Category category)
+        public async Task UpdateAsync(Category category)
         {
             using var context = new SampleStoreDbContext();
 
             context.Categories.Update(category);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
-        public Category GetByName(string categoryName)
+        public async Task<Category> GetByNameAsync(string categoryName)
         {
             using var context = new SampleStoreDbContext();
 
@@ -41,10 +42,11 @@ namespace Day39CaseStudy.Services.DbService
             var category = from c in context.Categories
                            where c.CategoryName == categoryName
                            select c;
-            return category.First();
-        }
 
-        public void Delete(int categoryId)
+            return await category.FirstAsync();
+        }
+        
+        public async Task DeleteAsync(int categoryId)
         {
             using var context = new SampleStoreDbContext();
 
@@ -60,8 +62,9 @@ namespace Day39CaseStudy.Services.DbService
                 return;
             }
 
-            context.Categories.Remove(category.First());
-            context.SaveChanges();
+            context.Categories.Remove(await category.FirstOrDefaultAsync());
+
+            await context.SaveChangesAsync(); 
         }
     }
 }

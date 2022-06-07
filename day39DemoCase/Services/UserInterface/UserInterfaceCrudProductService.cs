@@ -7,13 +7,15 @@ namespace Day39CaseStudy.Services.UserInterface;
 public class UserInterfaceCrudProductService
 {
     readonly ICrudService<Product> _productService;
+    readonly ICrudService<Brand> _brandService;
 
     public UserInterfaceCrudProductService()
     {
         _productService = CrudFactory.Create<Product>();
+        _brandService = CrudFactory.Create<Brand>();
     }
 
-    public void Add()
+    public async Task AddAsync()
     {
         var product = new Product();
 
@@ -42,7 +44,7 @@ public class UserInterfaceCrudProductService
 
         try
         {
-            _productService.Add(product);
+           await _productService.AddAsync(product);
         }
         catch (Exception ex)
         {
@@ -50,12 +52,12 @@ public class UserInterfaceCrudProductService
         }
     }
 
-    public IEnumerable<Product> GetAll()
+    public async Task<IEnumerable<Product>> GetAll()
     {
-        return _productService.GetAll();
+        return await _productService.GetAllAsync();
     }
 
-    public void Update()
+    public async Task UpdateAsync()
     {
         Console.WriteLine("Updating existing Product");
         Console.WriteLine("-----------------------");
@@ -63,7 +65,7 @@ public class UserInterfaceCrudProductService
         Console.Write("Enter Product Name to Update: ");
         var productNameText = Console.ReadLine();
 
-        var product = _productService.GetByName(productNameText);
+        var product =await _productService.GetByNameAsync(productNameText);
 
         if (product == null)
         {
@@ -93,10 +95,10 @@ public class UserInterfaceCrudProductService
         var listPriceText = Console.ReadLine();
         product.ListPrice = int.Parse(listPriceText);
 
-        _productService.Update(product);
+        await _productService.UpdateAsync(product);
     }
 
-    public void Delete()
+    public async Task DeleteAsync()
     {
         Console.WriteLine("Deleting existing Product");
         Console.WriteLine("-----------------------");
@@ -105,12 +107,13 @@ public class UserInterfaceCrudProductService
         var productIdText = Console.ReadLine();
         var productId = int.Parse(productIdText);
 
-        _productService.Delete(productId);
+         await _productService.DeleteAsync(productId);
     }
 
-    public void Show()
+    public async Task Show()
     {
-        var products = _productService.GetAll();
+        var products =await _productService.GetAllAsync();
+        var brands = await _brandService.GetAllAsync();
 
         //Console.WriteLine("Product List");
         //Console.WriteLine("--------------------------------------------------------------------------------------------------------------------------------------------------------------");
@@ -123,44 +126,38 @@ public class UserInterfaceCrudProductService
         //}
         //Console.WriteLine("------------------");
 
+
         Console.WriteLine("Brand Wise Product Display");
-        Console.WriteLine("------------------------------");
-        Console.WriteLine(Brand.Header);
-        Console.WriteLine("------------------------------");
-        foreach (var brand in products)
+
+        foreach (var brand in brands)
         {
-            Console.WriteLine(brand.BrandString());
+            Console.WriteLine("------------------------------");
+            Console.WriteLine(Brand.Header);
+            Console.WriteLine("------------------------------");
+            Console.WriteLine(brand.ToString());
+            Console.WriteLine("--------------------------------------------------------------------------------------------------------------------");
             Console.WriteLine(Product.Header);
-            Console.WriteLine("------------------------------------------------------------------------------------------------------------");
-            //var brandId;
+            Console.WriteLine("--------------------------------------------------------------------------------------------------------------------");
+
             foreach (var product in products)
             {
-
-                if (brand.ProductId == product.ProductId)
+                if (brand.BrandId == product.BrandId)
                 {
                     Console.WriteLine(product);
                 }
-                else
-                {
-                    break;
-                }
-                continue;
-            }
-            
-            //Console.WriteLine(brand.BrandString());
-        }
-        Console.WriteLine("------------------------------------------------------------------------------------------------------------");
 
-        //Console.WriteLine(Product.Header);
-        //Console.WriteLine("-------------------------------------------------------------------------------------------------------------");
-        //foreach (var product in products)
-        //{
-        //    Console.WriteLine(product);
-        //}
+                continue;
+
+            }
+            Console.WriteLine();
+            Console.WriteLine();
+
+        }
+        Console.WriteLine("-------------------------------------------------------------------------------------------------------------------------");
+        Console.WriteLine();
+
     }
 }
-
-
 
 
 

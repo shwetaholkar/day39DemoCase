@@ -43,9 +43,6 @@ public class Product
     {
         return $"| {ProductId,-3} | {ProductName,-50} | {CategoryId,-3} | {Category?.CategoryName,-30} | {ModelYear,-5} | {ListPrice,-10} |";
     }
-    public string BrandString()
-    {
-        return $"| {BrandId,-5} | {Brand?.BrandName,-20} |";
-    }
+    
 }
-//ProductId, ProductName, CategoryId, CategoryName, ModelYear, ListPrice
+

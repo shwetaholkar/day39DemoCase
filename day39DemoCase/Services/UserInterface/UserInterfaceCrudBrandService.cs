@@ -17,7 +17,7 @@ public class UserInterfaceCrudBrandService
         _brandService = CrudFactory.Create<Brand>();    // LOOSELY BOUND. VERY GOOD
     }
 
-    public void Add()
+    public async Task AddAsync()
     {
         Console.WriteLine("Adding New Brand");
         Console.WriteLine("----------------");
@@ -29,15 +29,15 @@ public class UserInterfaceCrudBrandService
         var brand = new Brand();
         brand.BrandName = brandNameText;
 
-        _brandService.Add(brand);
+        await _brandService.AddAsync(brand);
     }
 
-    public IEnumerable<Brand> GetAll()
+    public async Task <IEnumerable<Brand>> GetAllAsync()
     {
-        return _brandService.GetAll();
+        return await _brandService.GetAllAsync();
     }
 
-    public void Update()
+    public async Task UpdateAsync()
     {
         Console.WriteLine("Updating existing Brand");
         Console.WriteLine("-----------------------");
@@ -45,7 +45,7 @@ public class UserInterfaceCrudBrandService
         Console.Write("Enter Brand Name to Update: ");
         var brandNameText = Console.ReadLine();
 
-        var brand = _brandService.GetByName(brandNameText);
+        var brand =await _brandService.GetByNameAsync(brandNameText);
 
         if (brand == null)
         {
@@ -60,10 +60,10 @@ public class UserInterfaceCrudBrandService
 
         brand.BrandName = changedBrandNameText;
 
-        _brandService.Update(brand);
+        await _brandService.UpdateAsync(brand);
     }
 
-    public void Delete()
+    public async Task DeleteAsync()
     {
         Console.WriteLine("Deleting existing Brand");
         Console.WriteLine("-----------------------");
@@ -75,7 +75,7 @@ public class UserInterfaceCrudBrandService
 
         try
         {
-            _brandService.Delete(brandId);
+          await  _brandService.DeleteAsync(brandId);
         }
         catch (Exception ex)
         {
@@ -85,9 +85,9 @@ public class UserInterfaceCrudBrandService
         }
     }
 
-    public void Show()
+    public async Task ShowAsync()
     {
-        var brands = _brandService.GetAll();
+        var brands =await _brandService.GetAllAsync();
 
         Console.WriteLine("Brand List");
         Console.WriteLine("-------------------------------");

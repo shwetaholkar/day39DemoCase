@@ -14,7 +14,7 @@ namespace Day39CaseStudy.Services.UserInterface
             _categoryService = CrudFactory.Create<Category>();
         }
 
-        public void Add()
+        public async Task AddAsync()
         {
             Console.WriteLine("Adding New Category");
             Console.WriteLine("----------------");
@@ -24,15 +24,15 @@ namespace Day39CaseStudy.Services.UserInterface
 
             var category = new Category { CategoryName = categoryNameText };
 
-            _categoryService.Add(category);
+            await _categoryService.AddAsync(category);
         }
 
-        public IEnumerable<Category> GetAll()
+        public async Task<IEnumerable<Category>> GetAll()
         {
-            return _categoryService.GetAll();
+            return await _categoryService.GetAllAsync();
         }
 
-        public void Update()
+        public async Task UpdateAsync()
         {
             Console.WriteLine("Updating existing Category");
             Console.WriteLine("-----------------------");
@@ -40,7 +40,7 @@ namespace Day39CaseStudy.Services.UserInterface
             Console.Write("Enter category Name to Update: ");
             var categoryNameText = Console.ReadLine();
 
-            var category = _categoryService.GetByName(categoryNameText);
+            var category =await _categoryService.GetByNameAsync(categoryNameText);
 
             if (category == null)
             {
@@ -55,10 +55,10 @@ namespace Day39CaseStudy.Services.UserInterface
 
             category.CategoryName = changedCategoryNameText;
 
-            _categoryService.Update(category);
+           await _categoryService.UpdateAsync(category);
         }
 
-        public void Delete()
+        public async Task DeleteAsync()
         {
             Console.WriteLine("Deleting existing category");
             Console.WriteLine("-----------------------");
@@ -70,7 +70,7 @@ namespace Day39CaseStudy.Services.UserInterface
 
             try
             {
-                _categoryService.Delete(categoryId);
+               await _categoryService.DeleteAsync(categoryId);
             }
             catch (Exception ex)
             {
@@ -80,9 +80,9 @@ namespace Day39CaseStudy.Services.UserInterface
             }
         }
 
-        public void Show()
+        public async Task ShowAsync()
         {
-            var categories = _categoryService.GetAll();
+            var categories = await _categoryService.GetAllAsync();
 
             Console.WriteLine("Category List");
             Console.WriteLine("---------------------------------------");

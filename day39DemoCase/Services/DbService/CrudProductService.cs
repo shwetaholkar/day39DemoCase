@@ -1,20 +1,21 @@
 ﻿using Day39CaseStudy.DataAccess;
 using Day39CaseStudy.DataAccess.Models;
 using Day39CaseStudy.Services.DbService.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Day39CaseStudy.Services.DbService;
 
 public class CrudProductService : ICrudService<Product>
 {
-    public void Add(Product product)
+    public async Task AddAsync(Product product)
     {
         using var context = new SampleStoreDbContext();
 
-        context.Products.Add(product);
-        context.SaveChanges();
+        await context.Products.AddAsync(product);
+        await context.SaveChangesAsync();
     }
 
-    public IEnumerable<Product> GetAll()
+    public async Task<IEnumerable<Product>> GetAllAsync()
     {
         using var context = new SampleStoreDbContext();
 
@@ -42,9 +43,9 @@ public class CrudProductService : ICrudService<Product>
                            ModelYear = p.ModelYear,
                            ListPrice = p.ListPrice
 
-                       }).ToList();
+                       });
 
-        return product;
+        return await product.ToListAsync();
     }
 
     //public IEnumerable<Product> GetAllBrandWise()
@@ -79,15 +80,15 @@ public class CrudProductService : ICrudService<Product>
     //    return product;
     //}
 
-    public void Update(Product product)
+    public async Task UpdateAsync(Product product)
     {
         using var context = new SampleStoreDbContext();
 
         context.Products.Update(product);
-        context.SaveChanges();
+       await context.SaveChangesAsync();
     }
 
-    public Product GetByName(string productName)
+    public async Task<Product> GetByNameAsync(string productName)
     {
         using var context = new SampleStoreDbContext();
 
@@ -96,10 +97,10 @@ public class CrudProductService : ICrudService<Product>
         var category = from c in context.Products
                        where c.ProductName == productName
                        select c;
-        return category.First();
+        return await category.FirstAsync();
     }
-
-    public void Delete(int productId)
+    
+    public async Task DeleteAsync(int productId)
     {
         using var context = new SampleStoreDbContext();
 
@@ -115,8 +116,11 @@ public class CrudProductService : ICrudService<Product>
             return;
         }
 
-        context.Products.Remove(product.First());
-        context.SaveChanges();
+        context.Products.Remove( await product.FirstOrDefaultAsync());
+
+        await context.SaveChangesAsync();
     }
+
+   
 }
 

@@ -14,3 +14,6 @@ public class SampleStoreDbContext : DbContext
         optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-ERGIE03\MSSQLSERVER01;Initial Catalog=SampleStore;Integrated Security=True");
     }
 }
+
+
+
